@@ -1,0 +1,48 @@
+========================================================================
+             TenderMesh - Local Development Guide (docker-1)
+========================================================================
+
+All local development files and the builder Dockerfile are located in 
+this `docker-1` folder.
+
+------------------------------------------------------------------------
+1. HOW TO RUN LOCALLY FROM SOURCE CODE:
+------------------------------------------------------------------------
+Open terminal inside the `docker-1` folder and run:
+
+  sudo docker compose up --build -d
+
+Open your browser at: http://localhost:3001
+
+------------------------------------------------------------------------
+2. HOW TO APPLY CODE UPDATES:
+------------------------------------------------------------------------
+Docker does NOT update automatically when you change your source code.
+Whenever you modify your source code, rebuild your containers from inside `docker-1`:
+
+  sudo docker compose up --build -d
+
+------------------------------------------------------------------------
+3. HOW TO GENERATE DISTRIBUTION PACKAGE (docker-2):
+------------------------------------------------------------------------
+When you are ready to export your app for distribution to others:
+
+Option A (From inside docker-1 folder):
+  sudo docker build -f Dockerfile -t tendermesh-app:latest ..
+  sudo docker save tendermesh-app:latest > ../docker-2/tendermesh-app.tar
+
+Option B (From the root project folder):
+  sudo docker build -f docker-1/Dockerfile -t tendermesh-app:latest .
+  sudo docker save tendermesh-app:latest > docker-2/tendermesh-app.tar
+
+Once tendermesh-app.tar is generated inside `docker-2`, zip the `docker-2` folder and send it!
+
+------------------------------------------------------------------------
+USEFUL COMMANDS (From inside docker-1 folder):
+------------------------------------------------------------------------
+- View live logs:      sudo docker compose logs -f
+- Stop application:    sudo docker compose down
+
+USEFUL COMMANDS (From root project folder):
+- Rebuild & Restart:   sudo docker-compose -f docker-1/docker-compose.yml up --build -d
+========================================================================

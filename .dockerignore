@@ -1,0 +1,11 @@
+node_modules
+**/node_modules
+.git
+.env
+dist
+build
+docker-2/tendermesh-app.tar
+brain/
+scratch/
+artifacts/
+.agents/

@@ -1,0 +1,1 @@
+ALTER TABLE discovered_tenders ALTER COLUMN estimated_value TYPE BIGINT;

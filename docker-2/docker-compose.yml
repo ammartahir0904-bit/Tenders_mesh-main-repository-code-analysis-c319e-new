@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: tendermesh-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_pass
+      POSTGRES_DB: tendermesh
+    ports:
+      - '5433:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  tendermesh-app:
+    image: tendermesh-app:latest
+    container_name: tendermesh-app
+    restart: always
+    ports:
+      - '3001:3001'
+    environment:
+      API_PORT: 3001
+      NODE_ENV: production
+      DATABASE_URL: postgresql://postgres:postgres_pass@postgres:5432/tendermesh
+    # SUPPLIER_ENDPOINT is intentionally NOT set here so runtime updates
+    # via the Settings UI (POST /api/settings/env) take effect. The
+    # container reads it from the mounted .env.docker file at startup
+    # and the Settings route keeps the file + process.env in sync.
+    volumes:
+      - ./.env.docker:/app/.env.docker
+    env_file:
+      - .env.docker
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+    driver: local

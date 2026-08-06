@@ -1,0 +1,43 @@
+========================================================================
+             TenderMesh - How to Run with Docker
+========================================================================
+
+Prerequisites:
+Make sure Docker and Docker Compose are installed on your computer.
+
+------------------------------------------------------------------------
+LOCAL DEVELOPMENT / BUILDING (Step 1)
+------------------------------------------------------------------------
+All Step 1 Docker files are located inside the `docker-1` folder.
+
+To run locally from source code:
+  1. Open terminal and go into docker-1:
+     cd docker-1
+
+  2. Run Docker Compose:
+     Linux:   sudo docker compose up --build -d
+     macOS:   docker compose up --build -d
+     Windows: docker compose up --build -d
+
+To view live logs:
+  sudo docker compose logs -f
+
+To stop the application:
+  sudo docker compose down
+
+------------------------------------------------------------------------
+PRE-BUILT DISTRIBUTION PACKAGE (Step 2)
+------------------------------------------------------------------------
+All Step 2 distribution files (to send to clients without code) are 
+located inside the `docker-2` folder.
+
+Read `docker-2/STEP2_RUN_INSTRUCTIONS.txt` for details.
+
+========================================================================
+ACCESSING THE APPLICATION
+========================================================================
+Once the containers start up, access the application in your browser at:
+
+  http://localhost:3001
+
+========================================================================

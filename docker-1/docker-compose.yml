@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: tendermesh-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_pass
+      POSTGRES_DB: tendermesh
+    ports:
+      - '5433:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
+
+  tendermesh-app:
+    build:
+      context: ..
+      dockerfile: docker-1/Dockerfile
+    container_name: tendermesh-app
+    restart: always
+    ports:
+      - '3001:3001'
+    env_file:
+      - .env.docker
+    volumes:
+      - ./.env.docker:/app/.env.docker
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+    driver: local

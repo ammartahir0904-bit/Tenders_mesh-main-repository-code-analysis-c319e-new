@@ -1,0 +1,58 @@
+========================================================================
+           TenderMesh Application - Installation & Run Guide (docker-2)
+========================================================================
+
+Prerequisites:
+Make sure Docker Desktop (Windows/macOS) or Docker Engine (Linux) is installed.
+
+------------------------------------------------------------------------
+STEP 1: Load the Application Image into Docker
+------------------------------------------------------------------------
+Open your terminal in this `docker-2` directory and run:
+
+  Linux:   sudo docker load -i tendermesh-app.tar
+  macOS:   docker load -i tendermesh-app.tar
+  Windows: docker load -i tendermesh-app.tar
+
+------------------------------------------------------------------------
+STEP 2: Start the Application & Database
+------------------------------------------------------------------------
+In the same terminal, run:
+
+  Linux:   sudo docker compose up -d
+  macOS:   docker compose up -d
+  Windows: docker compose up -d
+
+------------------------------------------------------------------------
+STEP 3: Access the Application
+------------------------------------------------------------------------
+Open your web browser and go to:
+
+  http://localhost:3001
+
+------------------------------------------------------------------------
+TO STOP THE APPLICATION:
+------------------------------------------------------------------------
+  Linux:   sudo docker compose down
+  macOS / Windows: docker compose down
+
+------------------------------------------------------------------------
+HOW TO RUN UPDATED CODE (WHEN A NEW TAR FILE IS EXPORTED):
+------------------------------------------------------------------------
+If you or the software developer updated the source code and generated a
+new `tendermesh-app.tar` file, follow these steps to apply the updates:
+
+1. Re-build & export the new tar file (Done from root folder):
+     sudo docker build -f docker-1/Dockerfile -t tendermesh-app:latest .
+     sudo docker save tendermesh-app:latest > docker-2/tendermesh-app.tar
+
+2. Navigate into `docker-2`:
+     cd docker-2
+
+3. Load the new image into Docker:
+     sudo docker load -i tendermesh-app.tar
+
+4. Restart the containers with the updated image:
+     sudo docker compose up -d
+
+========================================================================

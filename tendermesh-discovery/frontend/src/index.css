@@ -1,0 +1,144 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* "?"?"? Light Theme Overrides "?"?"? */
+
+@layer base {
+  :root {
+    --background: 210 33% 98%;      /* Very light gray/blue #f4f6f8 */
+    --foreground: 222 47% 11%;      /* Very dark slate for text */
+    --card: 0 0% 100%;              /* White cards */
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 224 76% 32%;         /* Deep Blue #1e3a8a */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%; /* Slate 500 */
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 224 76% 32%;
+    --radius: 0.75rem;
+    color-scheme: light;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply bg-slate-50 scroll-smooth;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased selection:bg-blue-200 selection:text-blue-900;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-bold tracking-tight text-slate-900;
+  }
+
+  button, input, select, textarea {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+}
+
+/* "?"?"? Scrollbar styling "?"?"? */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+@layer components {
+  /* Dynamic Surface (White Cards) */
+  .tm-surface {
+    @apply bg-white border border-slate-200 shadow-sm transition-all duration-300 rounded-2xl;
+  }
+
+  .tm-surface-soft {
+    @apply bg-white border border-slate-100 shadow-sm transition-all duration-300 rounded-2xl;
+  }
+
+  .tm-surface-elevated {
+    @apply bg-white border border-slate-200 shadow-md transition-all duration-300 rounded-2xl;
+  }
+
+  .tm-pill {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium tracking-wide bg-blue-50 text-blue-700 border border-blue-100;
+  }
+
+  /* Interactive Elements Focus */
+  .tm-focus {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50;
+  }
+
+  /* Shimmer skeleton styling */
+  .tm-skeleton {
+    @apply relative overflow-hidden bg-slate-200 rounded-lg;
+  }
+  .tm-skeleton::after {
+    content: '';
+    @apply absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer;
+  }
+
+  /* Premium Buttons */
+  .tm-btn {
+    @apply tm-focus inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40;
+  }
+
+  .tm-btn-primary {
+    @apply tm-btn bg-blue-800 text-white shadow-sm hover:bg-blue-700 hover:shadow-md;
+  }
+
+  .tm-btn-secondary {
+    @apply tm-btn bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-slate-900 shadow-sm;
+  }
+
+  .tm-btn-danger {
+    @apply tm-btn bg-red-600 text-white shadow-sm hover:bg-red-500;
+  }
+
+  .tm-btn-ghost {
+    @apply tm-btn text-slate-500 hover:bg-slate-100 hover:text-slate-900;
+  }
+
+  /* Dynamic Icons */
+  .tm-icon-float {
+    animation: tm-float 6s ease-in-out infinite;
+    transform-origin: center;
+  }
+}
+
+@keyframes tm-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
