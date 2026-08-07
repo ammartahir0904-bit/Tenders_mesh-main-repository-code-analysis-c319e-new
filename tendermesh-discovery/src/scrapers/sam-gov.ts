@@ -41,10 +41,19 @@ export async function scrapeSAMGov(): Promise<RawScrapedTender[]> {
       <p><strong>Description:</strong> ${opp.description || ''}</p>
     `;
 
+    const directUrl = opp?.links?.[0]?.href || `https://sam.gov/opp/${opp.id}`;
     results.push({
-      source_url: opp?.links?.[0]?.href || `https://sam.gov/opp/${opp.id}`,
+      source_url: directUrl,
       source_id: opp.id || `sam-${Math.random().toString(36).substring(7)}`,
       raw_html: textRepresentation,
+      direct_url: directUrl,
+      details: {
+        specs: opp.description || '',
+        eligibility: opp.eligibility || undefined,
+        submission_process: opp.submissionProcess || undefined,
+        contact_info: opp.contactInfo || undefined,
+        evaluation_criteria: opp.evaluationCriteria || undefined,
+      },
     });
   }
 

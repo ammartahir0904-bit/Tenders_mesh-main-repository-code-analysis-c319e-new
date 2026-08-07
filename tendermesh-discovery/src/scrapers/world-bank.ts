@@ -26,10 +26,19 @@ export async function scrapeWorldBank(): Promise<RawScrapedTender[]> {
       <p><strong>Description:</strong> ${notice.project_name || ''}</p>
     `;
 
+    const directUrl = notice.url || `https://projects.worldbank.org`;
     results.push({
-      source_url: notice.url || `https://projects.worldbank.org`,
+      source_url: directUrl,
       source_id: `wb-${notice.id || Math.random().toString(36).substring(7)}`,
       raw_html: textRepresentation,
+      direct_url: directUrl,
+      details: {
+        specs: notice.project_name || '',
+        eligibility: notice.borrower || undefined,
+        submission_process: notice.closingdate || undefined,
+        contact_info: notice.contact || undefined,
+        evaluation_criteria: notice.sector1?.Name || undefined,
+      },
     });
   }
 

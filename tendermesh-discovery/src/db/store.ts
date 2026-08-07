@@ -143,8 +143,8 @@ export class TenderStore {
         INSERT INTO discovered_tenders 
         (source, source_url, source_id, title, buying_org, category, location, 
          estimated_value, currency, deadline, mandatory_reqs, raw_html, description, status,
-         content_hash, similarity_hash)
-        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)
+         content_hash, similarity_hash, direct_url, details)
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)
         RETURNING id
       `, [
         tender.source,
@@ -162,7 +162,9 @@ export class TenderStore {
         tender.description || null,
         'ACTIVE',
         contentHash,
-        similarityHash
+        similarityHash,
+        tender.direct_url || null,
+        JSON.stringify(tender.details || {})
       ]);
 
       const tenderId = tenderRes.rows[0].id;
@@ -232,7 +234,8 @@ export class TenderStore {
         SET title = $2, buying_org = $3, category = $4, location = $5,
             estimated_value = $6, currency = $7, deadline = $8,
             mandatory_reqs = $9, raw_html = $10, updated_at = NOW(),
-            content_hash = $11, similarity_hash = $12
+            content_hash = $11, similarity_hash = $12,
+            direct_url = $13, details = $14
         WHERE id = $1
         AND (
           SELECT status FROM tender_approvals WHERE tender_id = $1
@@ -249,7 +252,9 @@ export class TenderStore {
         JSON.stringify(tender.mandatory_reqs || []),
         tender.raw_html || null,
         contentHash,
-        similarityHash
+        similarityHash,
+        tender.direct_url || null,
+        JSON.stringify(tender.details || {})
       ]);
 
       await client.query(`
@@ -366,6 +371,8 @@ export class TenderStore {
         mandatory_reqs: typeof row.mandatory_reqs === 'string' ? JSON.parse(row.mandatory_reqs) : row.mandatory_reqs,
         raw_html: row.raw_html,
         description: row.description,
+        direct_url: row.direct_url,
+        details: typeof row.details === 'string' ? JSON.parse(row.details) : (row.details || {}),
       },
       score: {
         overall: parseFloat(row.overall_score),
@@ -398,6 +405,8 @@ export class TenderStore {
         mandatory_reqs: typeof row.mandatory_reqs === 'string' ? JSON.parse(row.mandatory_reqs) : row.mandatory_reqs,
         raw_html: row.raw_html,
         description: row.description,
+        direct_url: row.direct_url,
+        details: typeof row.details === 'string' ? JSON.parse(row.details) : (row.details || {}),
       },
       score: {
         overall: parseFloat(row.overall_score),

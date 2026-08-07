@@ -79,6 +79,8 @@ export function parseHtmlList(raw: RawScrapedTender, sourceName: string): Tender
           mandatory_reqs: [],
           raw_html: row.outerHTML,
           description: undefined,
+          direct_url: raw.direct_url || sourceUrl,
+          details: raw.details || undefined,
         };
 
         const parsed = TenderSchema.safeParse(tender);

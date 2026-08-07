@@ -200,9 +200,9 @@ router.get('/health', async (req, res) => {
         const columns = await pool.query(`
           SELECT column_name FROM information_schema.columns 
           WHERE table_name = 'discovered_tenders' 
-          AND column_name IN ('content_hash', 'similarity_hash', 'updated_by_scan_id')
+          AND column_name IN ('content_hash', 'similarity_hash', 'updated_by_scan_id', 'direct_url', 'details')
         `);
-        checks.deduplication.contentHashColumns = columns.rows.length === 3;
+        checks.deduplication.contentHashColumns = columns.rows.length === 5;
       } catch (err) {
         logger.error('Health check: failed to check columns', { error: err });
       }

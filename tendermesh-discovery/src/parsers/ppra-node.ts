@@ -29,6 +29,8 @@ export class PPRANodeParser implements IParser {
       deadline: this.extractDeadline(text),
       mandatory_reqs: this.extractReqs(text),
       raw_html: raw.raw_html,
+      direct_url: raw.direct_url || undefined,
+      details: raw.details || undefined,
     };
 
     const result = TenderSchema.safeParse(parsed);

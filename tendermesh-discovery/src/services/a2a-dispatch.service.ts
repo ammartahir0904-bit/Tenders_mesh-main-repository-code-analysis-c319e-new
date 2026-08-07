@@ -95,6 +95,8 @@ export class A2ADispatchService {
         source: tender.source,
         source_id: tender.source_id,
         source_url: tender.source_url,
+        official_tender_url: tender.direct_url || null,
+        details: typeof tender.details === 'string' ? JSON.parse(tender.details) : (tender.details || {}),
         status: tender.status,
         raw_html: tender.raw_html || null,
         deliverables: [],

@@ -20,6 +20,8 @@ export interface Tender {
   mandatory_reqs: string[];
   raw_html?: string;
   description?: string | null;
+  direct_url?: string | null;
+  details?: Record<string, any>;
   status: TenderStatus;
   scraped_at: string;           // ISO-8601
   updated_at: string;           // ISO-8601

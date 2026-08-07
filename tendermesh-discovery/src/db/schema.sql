@@ -21,12 +21,14 @@ CREATE TABLE IF NOT EXISTS discovered_tenders (
     buying_org      TEXT,
     category        VARCHAR(255),
     location        VARCHAR(255),
-    estimated_value INTEGER,       
+    estimated_value BIGINT,       
     currency        VARCHAR(3) DEFAULT 'PKR',
     deadline        TIMESTAMPTZ,
     mandatory_reqs  JSONB DEFAULT '[]',
     raw_html        TEXT,
     description     TEXT,
+    direct_url      TEXT,
+    details         JSONB DEFAULT '{}',
     status          VARCHAR(20) DEFAULT 'ACTIVE',
     scraped_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -112,6 +114,16 @@ ADD COLUMN IF NOT EXISTS updated_by_scan_id UUID;
 
 ALTER TABLE discovered_tenders 
 ADD COLUMN IF NOT EXISTS description TEXT;
+
+-- Data integrity columns (safe additive migration for existing databases)
+ALTER TABLE discovered_tenders 
+ADD COLUMN IF NOT EXISTS direct_url TEXT;
+
+ALTER TABLE discovered_tenders 
+ADD COLUMN IF NOT EXISTS details JSONB DEFAULT '{}';
+
+CREATE INDEX IF NOT EXISTS idx_discovered_tenders_direct_url 
+ON discovered_tenders(direct_url);
 
 -- Performance indexes for tender listing and filtering
 CREATE INDEX IF NOT EXISTS idx_discovered_tenders_source ON discovered_tenders(source);

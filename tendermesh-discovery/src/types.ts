@@ -4,6 +4,8 @@ export interface RawScrapedTender {
   source_url: string;
   source_id: string;
   raw_html: string;
+  direct_url?: string;
+  details?: Record<string, any>;
   extracted?: any;
 }
 
@@ -21,6 +23,8 @@ export const TenderSchema = z.object({
   mandatory_reqs: z.array(z.string()),
   raw_html: z.string(),
   description: z.string().nullable().optional(),
+  direct_url: z.string().nullable().optional(),
+  details: z.record(z.any()).nullable().optional(),
 });
 
 export type Tender = z.infer<typeof TenderSchema>;

@@ -120,6 +120,8 @@ ${text.substring(0, 3000)}`;
         mandatory_reqs: Array.isArray(extracted.mandatory_reqs) ? extracted.mandatory_reqs : [],
         raw_html: raw.raw_html,
         description: extracted.description ? String(extracted.description) : undefined,
+        direct_url: raw.direct_url || extracted.direct_url || undefined,
+        details: extracted.details || raw.details || undefined,
       };
 
       const result = TenderSchema.safeParse(tender);
@@ -185,6 +187,8 @@ ${text.substring(0, 3000)}`;
       mandatory_reqs: requirements,
       raw_html: raw.raw_html,
       description: undefined,
+      direct_url: raw.direct_url || undefined,
+      details: raw.details || undefined,
     };
 
     const result = TenderSchema.safeParse(tender);

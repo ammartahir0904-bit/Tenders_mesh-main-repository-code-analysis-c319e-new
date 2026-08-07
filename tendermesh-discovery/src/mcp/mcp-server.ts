@@ -49,7 +49,7 @@ server.setRequestHandler(
     if (name === 'get_approved_tenders') {
       const result = await pool.query(`
         SELECT t.title, t.buying_org, t.category, t.location, t.estimated_value, t.currency, t.deadline, t.source_url,
-               s.overall_score, s.recommendation
+               t.direct_url, t.details, s.overall_score, s.recommendation
         FROM discovered_tenders t
         JOIN tender_scores s ON t.id = s.tender_id
         JOIN tender_approvals a ON t.id = a.tender_id
@@ -90,7 +90,7 @@ server.setRequestHandler(
 
       const result = await pool.query(`
         SELECT t.id, t.title, t.buying_org, t.category, t.location, t.estimated_value, t.currency, t.deadline,
-               t.source_url, s.overall_score, s.recommendation, a.status as approval_status
+               t.source_url, t.direct_url, t.details, s.overall_score, s.recommendation, a.status as approval_status
         FROM discovered_tenders t
         LEFT JOIN tender_scores s ON t.id = s.tender_id
         LEFT JOIN tender_approvals a ON t.id = a.tender_id

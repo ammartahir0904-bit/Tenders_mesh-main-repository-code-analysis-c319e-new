@@ -333,6 +333,24 @@ export class ConfigService {
           baseUrl: 'https://api.groq.com/openai/v1',
           defaultModel: this.config.ai.model,
         };
+      case 'openai':
+        return {
+          apiKey: this.config.ai.apiKey,
+          baseUrl: 'https://api.openai.com/v1',
+          defaultModel: this.config.ai.model,
+        };
+      case 'anthropic':
+        return {
+          apiKey: this.config.ai.apiKey,
+          baseUrl: 'https://api.anthropic.com/v1',
+          defaultModel: this.config.ai.model,
+        };
+      case 'google':
+        return {
+          apiKey: this.config.ai.apiKey,
+          baseUrl: 'https://generativelanguage.googleapis.com/v1beta/openai',
+          defaultModel: this.config.ai.model,
+        };
       case 'zenrows':
         return {
           apiKey: this.config.scraping.zenrowsApiKey,
